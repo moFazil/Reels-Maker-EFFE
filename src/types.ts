@@ -1,4 +1,5 @@
 import { fabric } from "fabric";
+import { type } from "os";
 
 export type EditorElementBase<T extends string, P> = {
   readonly id: string;
@@ -108,3 +109,5 @@ export type MenuOption =
   | "Animation"
   | "Effect"
   | "Fill";
+
+
