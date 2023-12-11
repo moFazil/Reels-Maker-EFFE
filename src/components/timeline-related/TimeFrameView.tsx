@@ -8,7 +8,7 @@ import DragableView from "./DragableView";
 export const TimeFrameView = observer((props: { element: EditorElement }) => {
   const store = React.useContext(StoreContext);
   const { element } = props;
-  const disabled = element.type === "audio";
+  const disabled = false;
   const isSelected = store.selectedElement?.id === element.id;
   const bgColorOnSelected = isSelected ? "bg-slate-800" : "bg-slate-600";
   const disabledCursor = disabled ? "cursor-no-drop" : "cursor-ew-resize";
@@ -19,15 +19,14 @@ export const TimeFrameView = observer((props: { element: EditorElement }) => {
         store.setSelectedElement(element);
       }}
       key={element.id}
-      className={`relative width-full h-[25px] my-2 ${
-        isSelected ? "border-2 border-indigo-600 bg-slate-200" : ""
+      className={`relative width-full h-8 my-2 ${
+        isSelected ? "border-2 border-indigo-600 h-[40px] bg-slate-200" : ""
       }`}
     >
       <DragableView
         className="z-10"
         value={element.timeFrame.start}
         total={store.maxTime}
-        disabled={disabled}
         onChange={(value) => {
           store.updateEditorElementTimeFrame(element, {
             start: value,
@@ -35,14 +34,13 @@ export const TimeFrameView = observer((props: { element: EditorElement }) => {
         }}
       >
         <div
-          className={`bg-white border-2 border-blue-400 w-[10px] h-[10px] mt-[calc(25px/2)] translate-y-[-50%] transform translate-x-[-50%] ${disabledCursor}`}
+          className={`bg-blue-400 border-2 border-blue-400 w-[5px] h-10 mt-[calc(25px/2)] translate-y-[-39%] transform translate-x-[-50%] ${disabledCursor}`}
         ></div>
       </DragableView>
 
       <DragableView
         className={disabled ? "cursor-no-drop" : "cursor-col-resize"}
         value={element.timeFrame.start}
-        disabled={disabled}
         style={{
           width: `${
             ((element.timeFrame.end - element.timeFrame.start) /
@@ -67,7 +65,6 @@ export const TimeFrameView = observer((props: { element: EditorElement }) => {
       </DragableView>
       <DragableView
         className="z-10"
-        disabled={disabled}
         value={element.timeFrame.end}
         total={store.maxTime}
         onChange={(value) => {
@@ -77,7 +74,7 @@ export const TimeFrameView = observer((props: { element: EditorElement }) => {
         }}
       >
         <div
-          className={`bg-white border-2 border-blue-400 w-[10px] h-[10px] mt-[calc(25px/2)] translate-y-[-50%] transform translate-x-[-50%] ${disabledCursor}`}
+          className={`bg-blue-400 border-2 border-blue-400 w-[5px] h-10 mt-[calc(25px/2)] translate-y-[-39%] transform translate-x-[-50%] ${disabledCursor}`}
         ></div>
       </DragableView>
     </div>
