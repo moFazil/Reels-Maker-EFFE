@@ -9,7 +9,7 @@ export const TextResourcesPanel = observer(() => {
       <div className="text-sm px-[16px] pt-[16px] pb-[8px] font-semibold text-white">
         Add Text
       </div>
-      <TextResource sampleText="Title" fontSize={28} fontWeight={600} />
+      <TextResource sampleText="Title" fontSize={28} fontWeight={900} />
       <TextResource sampleText="Subtitle" fontSize={16} fontWeight={600} />
       <TextResource sampleText="Body" fontSize={14} fontWeight={400} />
       <TextResource sampleText="Caption" fontSize={12} fontWeight={400} />
