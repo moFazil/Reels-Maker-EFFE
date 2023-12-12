@@ -29,6 +29,8 @@ export type TextEditorElement = EditorElementBase<
     text: string;
     fontSize: number;
     fontWeight: number;
+    textColor: string;
+    fontFamily: string;
     splittedTexts: fabric.Text[];
   }
 >;

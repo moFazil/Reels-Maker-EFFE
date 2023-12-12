@@ -15,7 +15,7 @@ export const EditorWithStore = () => {
   const [store] = useState(new Store());
   return (
     <StoreContext.Provider value={store}>
-      <Editor></Editor>
+      <Editor/>
     </StoreContext.Provider>
   );
 }
@@ -48,11 +48,11 @@ export const Editor = observer(() => {
     });
   }, []);
   return (
-    <div className="grid grid-rows-[20px_500px_1fr] grid-cols-[60px_200px_800px_1fr] h-[100%]">
+    <div className="grid grid-rows-[20px_500px_1fr] grid-cols-[60px_250px_800px_1fr] h-[100%]">
       <div className="tile row-span-2 flex flex-col">
         <Menu />
       </div>
-      <div className="row-span-2 flex flex-col overflow-auto">
+      <div className="row-span-2 flex flex-col overflow-auto px-4 h-[100%]">
         <Resources />
       </div>
       <canvas id="canvas" className="h-[500px] w-[800px] row col-start-3" />

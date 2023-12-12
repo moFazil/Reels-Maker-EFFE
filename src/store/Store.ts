@@ -514,6 +514,8 @@ export class Store {
     text: string,
     fontSize: number,
     fontWeight: number,
+    textColor: string,
+    fontFamily: string,
   }) {
     const id = getUid();
     const index = this.editorElements.length;
@@ -539,6 +541,8 @@ export class Store {
           text: options.text,
           fontSize: options.fontSize,
           fontWeight: options.fontWeight,
+          textColor: options.textColor,
+          fontFamily: options.fontFamily,
           splittedTexts: [],
         },
       },
@@ -874,6 +878,7 @@ export class Store {
           break;
         }
         case "text": {
+          const defaultColor = "#ffffff";
           const textObject = new fabric.Textbox(element.properties.text, {
             name: element.id,
             left: element.placement.x,
@@ -885,10 +890,11 @@ export class Store {
             angle: element.placement.rotation,
             fontSize: element.properties.fontSize,
             fontWeight: element.properties.fontWeight,
+            fontFamily: element.properties.fontFamily || "Arial",
             objectCaching: false,
             selectable: true,
             lockUniScaling: true,
-            fill: "#ffffff",
+            fill: element.properties.textColor || defaultColor,
           });
           element.fabricObject = textObject;
           canvas.add(textObject);
@@ -981,7 +987,8 @@ function getTextObjectsPartitionedByCharacters(textObject: fabric.Text, element:
       top: lineIndex * lineHeight * scaleY + (element.placement.y),
       fontSize: textObject.fontSize,
       fontWeight: textObject.fontWeight,
-      fill : '#fff',
+      fill : textObject.fill || "#fff",
+      fontFamily: textObject.fontFamily,
     });
     copyCharsObjects.push(charTextObject);
   }
