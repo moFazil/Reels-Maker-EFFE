@@ -6,7 +6,7 @@ import { TextResource } from "../entity/TextResource";
 export const TextResourcesPanel = observer(() => {
   return (
     <div className="h-full">
-      <div className="text-sm px-[16px] pt-[16px] pb-[8px] font-semibold text-slate-800 ">
+      <div className="text-sm px-[16px] pt-[16px] pb-[8px] font-semibold text-slate-800">
         Add Text
       </div>
       <TextResource sampleText="Title" fontSize={28} fontWeight={800} />
