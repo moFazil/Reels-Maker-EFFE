@@ -30,7 +30,7 @@ export const Menu = observer(() => {
               className=""
               size="20"
               color={
-                store.selectedMenuOption === option.name ? "#EA2127" : "black"
+                store.selectedMenuOption === option.name ? "#EA2127" : "gray"
               }
             />
             <div
