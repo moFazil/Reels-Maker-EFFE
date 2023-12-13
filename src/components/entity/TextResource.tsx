@@ -40,7 +40,7 @@ export const TextResource = observer(
           {sampleText}
         
         <button
-          className="hover:bg-[#00a0f5] bg-[rgba(0,0,0,.25)] rounded-full w-[28px] z-10 text-white font-bold px-0.5 py-0.5 my-1.5"
+          className="hover:bg-[#EA2127] bg-[rgba(0,0,0,.25)] rounded-full w-[28px] z-10 text-white font-bold px-0.5 py-0.5 my-1.5"
           onClick={() =>
             store.addText({
               text: sampleText,
