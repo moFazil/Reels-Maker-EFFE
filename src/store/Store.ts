@@ -8,6 +8,30 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import {  toBlobURL } from '@ffmpeg/util';
 
 export class Store {
+ deleteEditorElement(ids: string[]): void {
+    this.editorElements = this.editorElements.filter(element => !ids.includes(element.id));
+  }
+  moveElementUp(id: string): void {
+    const index = this.editorElements.findIndex((element) => element.id === id);
+  
+    if (index > 0) {
+      this.editorElements = this.editorElements.map((element, i) =>
+        i === index - 1 ? this.editorElements[index] : i === index ? this.editorElements[index - 1] : element
+      );
+    }
+  }
+  moveElementDown(id: string): void {
+    const index = this.editorElements.findIndex((element) => element.id === id);
+  
+    if (index < this.editorElements.length - 1) {
+      // Swap elements at index and index + 1
+      [this.editorElements[index], this.editorElements[index + 1]] = [
+        this.editorElements[index + 1],
+        this.editorElements[index],
+      ];
+    }
+  }  
+
   canvas: fabric.Canvas | null
 
   backgroundColor: string;
@@ -47,6 +71,7 @@ export class Store {
     this.selectedMenuOption = 'Video';
     this.selectedVideoFormat = 'mp4';
     makeAutoObservable(this);
+   
   }
 
   get currentTimeInMs() {
