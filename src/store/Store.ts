@@ -66,7 +66,7 @@ export class Store {
       this.selectedVideoFormat = parsedState.selectedVideoFormat;
     }
 
-    makeAutoObservable(this);
+    makeAutoObservable(this, {}, { autoBind: true });
 
     autorun(() => {
       const stateToSave = {
@@ -86,29 +86,25 @@ export class Store {
     });
 
     // Save relevant video and audio data to local storage
-     autorun(() => {
+    const autorunHandler = () => {
       const videoDataToSave = this.editorElements
         .filter((element): element is VideoEditorElement => element.type === 'video')
         .map((videoElement) => ({
           id: videoElement.id,
           currentTimeInMs: this.currentTimeInMs,
         }));
-
+  
       const audioDataToSave = this.editorElements
         .filter((element): element is AudioEditorElement => element.type === 'audio')
         .map((audioElement) => ({
           id: audioElement.id,
           currentTimeInMs: this.currentTimeInMs,
         }));
-
+  
       localStorage.setItem('videoCreatorVideoData', JSON.stringify(videoDataToSave));
       localStorage.setItem('videoCreatorAudioData', JSON.stringify(audioDataToSave));
-    });
-    makeAutoObservable(this, {}, { autoBind: true });
-   
+    };
   }
-
-  
   private undoStack: { action: string; data: EditorElement[] }[] = [];
 
   addToUndoStack(action: string, data: EditorElement[]): void {

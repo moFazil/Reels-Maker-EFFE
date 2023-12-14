@@ -5,6 +5,7 @@ import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import { TimeFrameView } from "./timeline-related/TimeFrameView";
 import useKeyPress from "@/hooks/UseKeyPress";
+import { IoArrowUndo } from "react-icons/io5";
 
 export const TimeLine = observer(() => {
   const store = React.useContext(StoreContext);
@@ -67,13 +68,13 @@ export const TimeLine = observer(() => {
   return (
     <>
       <SeekPlayer />
-      <button onClick={handleUndo}>Undo</button>
+        <button onClick={handleUndo}><IoArrowUndo className=" w-7 h-6 my-1 mx-2"/></button>
       <div className="relative height-auto"
        onKeyDown={handleDelete}
        tabIndex={0}
       >
         <div
-          className="w-[2px] bg-red-400 absolute top-0 bottom-0 z-20"
+          className="w-[2px] bg-[#EA2127] absolute top-0 bottom-0 z-20"
           style={{
             left: `${percentOfCurrentTime}%`,
           }}
