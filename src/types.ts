@@ -110,6 +110,7 @@ export type MenuOption =
   | "Export"
   | "Animation"
   | "Effect"
-  | "Fill";
+  | "Fill"
+  | "NewEdit";
 
 

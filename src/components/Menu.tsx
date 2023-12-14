@@ -11,11 +11,15 @@ import {
   MdAudiotrack,
   MdOutlineFormatColorFill,
   MdMovieFilter,
+  MdOutlineCreateNewFolder, 
 } from "react-icons/md";
 import { Store } from "@/store/Store";
 
 export const Menu = observer(() => {
   const store = React.useContext(StoreContext);
+  const handleClearLocalStorage = () => {
+    store.clearLocalStorage();
+};
 
   return (
     <>
@@ -24,7 +28,7 @@ export const Menu = observer(() => {
           <button
             key={option.name}
             onClick={() => option.action(store)}
-            className="py-4 px-2 w-full flex flex-col items-center text-xs"
+            className="py-4 px-0 w-full flex flex-col items-center text-xs"
           >
             <option.icon
               className=""
@@ -45,6 +49,30 @@ export const Menu = observer(() => {
           </button>
         );
       })}
+      <button
+        onClick={() => {
+          handleClearLocalStorage();
+          store.setSelectedMenuOption("NewEdit");
+        }}
+        className="py-4 px-0 w-full flex flex-col items-center text-xs"
+      >
+        <MdOutlineCreateNewFolder
+          className=""
+          size="20"
+          color={
+            store.selectedMenuOption === "NewEdit" ? "#EA2127" : "gray"
+          }
+        />
+        <div
+          className={
+            store.selectedMenuOption === "NewEdit"
+              ? "font-semibold"
+              : "font-light"
+          }
+        >
+          New
+        </div>
+      </button>
     </>
   );
 });
