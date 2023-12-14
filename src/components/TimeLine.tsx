@@ -1,13 +1,15 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { SeekPlayer } from "./timeline-related/SeekPlayer";
 import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import { TimeFrameView } from "./timeline-related/TimeFrameView";
+import useKeyPress from "@/hooks/UseKeyPress";
 
 export const TimeLine = observer(() => {
   const store = React.useContext(StoreContext);
   const percentOfCurrentTime = (store.currentTimeInMs / store.maxTime) * 100;
+  const [forceRender, setForceRender] = useState(0);
 
   const handleDelete = (event: React.KeyboardEvent) => {
     if (event.key === "Delete" && store.selectedElement) {
@@ -16,34 +18,56 @@ export const TimeLine = observer(() => {
       // Clear the selected element
       store.setSelectedElement(null);
     }
+  };  
+
+  const handleUndo = () => {
+    store.undo();
+    // Incrementing the state to force a re-render
+    setForceRender((prev) => prev + 1);
   };
+
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "ArrowUp" && store.selectedElement) {
       store.moveElementUp(store.selectedElement.id);
     } else if (event.key === "ArrowDown" && store.selectedElement) {
       store.moveElementDown(store.selectedElement.id);
+    } else if ((event.ctrlKey || event.metaKey) && event.key === "z") {
+      // Check for Ctrl + Z (Windows/Linux) or Command + Z (Mac)
+      store.undo();
+      // Incrementing the state to force a re-render
+      setForceRender((prev) => prev + 1);
+    } else if ((event.key === 'Delete' || event.code === 'Delete') && store.selectedElement) {
+      // Delete the selected timeline without asking for permission
+      store.deleteEditorElement([store.selectedElement.id]);
+      // Clear the selected element
+      store.setSelectedElement(null);
     }
-  };
+  };  
+
+  useKeyPress(handleKeyDown, 'ArrowUp');
+  useKeyPress(handleKeyDown, 'ArrowDown');
+  useKeyPress((event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'z') {
+      handleKeyDown(event);
+    }
+  }, 'z');
+  useKeyPress(handleKeyDown, 'Delete');
+
   useEffect(() => {
-    const keyDownListener = (event: KeyboardEvent) => handleKeyDown(event);
-    const keyUpListener = (event: KeyboardEvent) => {
-      // Handle key up event if needed
-    };
+    const onKeyDown = (event: KeyboardEvent) => handleKeyDown(event);
+    
+    // Ensure focus is on the document for global key events
+    document.addEventListener('keydown', onKeyDown);
 
-    // Add event listeners when the component mounts
-    window.addEventListener("keydown", keyDownListener);
-    window.addEventListener("keyup", keyUpListener);
-
-    // Remove event listeners when the component unmounts
     return () => {
-      window.removeEventListener("keydown", keyDownListener);
-      window.removeEventListener("keyup", keyUpListener);
+      document.removeEventListener('keydown', onKeyDown);
     };
-  }, [store.selectedElement, store.moveElementUp]);  
+  }, [handleKeyDown]);
 
   return (
     <>
       <SeekPlayer />
+      <button onClick={handleUndo}>Undo</button>
       <div className="relative height-auto"
        onKeyDown={handleDelete}
        tabIndex={0}
