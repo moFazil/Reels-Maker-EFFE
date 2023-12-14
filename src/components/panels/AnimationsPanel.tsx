@@ -101,7 +101,7 @@ export const AnimationsPanel = observer(() => {
         >
           Add Slide Out
         </div>
-      ) : null}
+      ) : alert("Need to select the object")}
       {selectedElementAnimations.map((animation) => {
         return <AnimationResource key={animation.id} animation={animation} />;
       })}
