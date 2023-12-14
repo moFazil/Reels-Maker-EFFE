@@ -1,4 +1,4 @@
-import { autorun, makeAutoObservable } from 'mobx';
+import { autorun, makeAutoObservable, runInAction  } from 'mobx';
 import { fabric } from 'fabric';
 import { getUid, isHtmlAudioElement, isHtmlImageElement, isHtmlVideoElement } from '@/utils';
 import anime, { get } from 'animejs';
@@ -63,7 +63,7 @@ export class Store {
       this.selectedMenuOption = parsedState.selectedMenuOption;
       this.selectedVideoFormat = parsedState.selectedVideoFormat;
     }
-    
+
     makeAutoObservable(this);
 
     autorun(() => {
@@ -84,7 +84,7 @@ export class Store {
     });
 
     // Save relevant video and audio data to local storage
-    autorun(() => {
+     autorun(() => {
       const videoDataToSave = this.editorElements
         .filter((element): element is VideoEditorElement => element.type === 'video')
         .map((videoElement) => ({
@@ -102,11 +102,21 @@ export class Store {
       localStorage.setItem('videoCreatorVideoData', JSON.stringify(videoDataToSave));
       localStorage.setItem('videoCreatorAudioData', JSON.stringify(audioDataToSave));
     });
-  
-    
+  }
+
+  clearLocalStorage() {
+    try {
+      console.log('Clearing local storage...');
+      localStorage.removeItem('videoCreatorAppState');
+      localStorage.removeItem('videoCreatorVideoData');
+      localStorage.removeItem('videoCreatorAudioData');
+      // Reload the page
+      window.location.reload();
+    } catch (error) {
+      console.error('Error clearing local storage:', error);
+    }
   }
   
-
   get currentTimeInMs() {
     return this.currentKeyFrame * 1000 / this.fps;
   }
@@ -405,7 +415,6 @@ export class Store {
     this.maxTime = maxTime;
   }
 
-
   setPlaying(playing: boolean) {
     this.playing = playing;
     this.updateVideoElements();
@@ -438,6 +447,7 @@ export class Store {
       });
     }
   }
+
   updateTimeTo(newTime: number) {
     this.setCurrentTimeInMs(newTime);
     this.animationTimeLine.seek(newTime);
@@ -566,8 +576,8 @@ export class Store {
         }
       },
     );
-
   }
+
   addText(options: {
     text: string,
     fontSize: number,
@@ -625,6 +635,7 @@ export class Store {
         }
       })
   }
+
   updateAudioElements() {
     this.editorElements.filter(
       (element): element is AudioEditorElement =>
@@ -643,7 +654,6 @@ export class Store {
         }
       })
   }
-  
 
   setVideoFormat(format: 'mp4' | 'webm') {
     this.selectedVideoFormat = format;
@@ -656,6 +666,7 @@ export class Store {
       this.saveCanvasToVideoWithAudioMp4();
     }
   }
+
   saveCanvasToVideoWithAudioMp4() {
     const store = this;
     const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -1005,7 +1016,6 @@ export class Store {
 
 }
 
-
 export function isEditorAudioElement(
   element: EditorElement
 ): element is AudioEditorElement {
@@ -1022,7 +1032,6 @@ export function isEditorImageElement(
 ): element is ImageEditorElement {
   return element.type === "image";
 }
-
 
 function getTextObjectsPartitionedByCharacters(textObject: fabric.Text, element:TextEditorElement):fabric.Text[]{
   let copyCharsObjects: fabric.Text[] = [];
