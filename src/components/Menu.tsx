@@ -3,16 +3,20 @@ import React from "react";
 import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import {
-  MdDownload,
-  MdVideoLibrary,
-  MdImage,
-  MdTransform,
-  MdTitle,
-  MdAudiotrack,
-  MdOutlineFormatColorFill,
-  MdMovieFilter,
-  MdOutlineCreateNewFolder, 
-} from "react-icons/md";
+  MdOutlineAnimation ,
+  MdOutlineOndemandVideo ,
+  MdOutlineCreateNewFolder
+} 
+from "react-icons/md";
+import { 
+  IoMusicalNotesOutline ,
+  IoCloudDownloadOutline,
+  IoText 
+} 
+from "react-icons/io5";
+import { TbFilters } from "react-icons/tb";
+import { HiOutlinePhoto } from "react-icons/hi2";
+import { TfiPaintBucket } from "react-icons/tfi";
 import { Store } from "@/store/Store";
 
 export const Menu = observer(() => {
@@ -28,7 +32,7 @@ export const Menu = observer(() => {
           <button
             key={option.name}
             onClick={() => option.action(store)}
-            className="py-4 px-0 w-full flex flex-col items-center text-xs"
+            className="py-[10px] mx-1 px-0 w-full flex flex-col items-center text-xs"
           >
             <option.icon
               className=""
@@ -54,7 +58,7 @@ export const Menu = observer(() => {
           handleClearLocalStorage();
           store.setSelectedMenuOption("NewEdit");
         }}
-        className="py-4 px-0 w-full flex flex-col items-center text-xs"
+        className="py-[10px] mx-1 px-0 w-full flex flex-col items-center text-xs"
       >
         <MdOutlineCreateNewFolder
           className=""
@@ -80,56 +84,56 @@ export const Menu = observer(() => {
 const MENU_OPTIONS = [
   {
     name: "Video",
-    icon: MdVideoLibrary,
+    icon: MdOutlineOndemandVideo ,
     action: (store: Store) => {
       store.setSelectedMenuOption("Video");
     },
   },
   {
     name: "Audio",
-    icon: MdAudiotrack,
+    icon: IoMusicalNotesOutline ,
     action: (store: Store) => {
       store.setSelectedMenuOption("Audio");
     },
   },
   {
     name: "Image",
-    icon: MdImage,
+    icon: HiOutlinePhoto,
     action: (store: Store) => {
       store.setSelectedMenuOption("Image");
     },
   },
   {
     name: "Text",
-    icon: MdTitle,
+    icon: IoText,
     action: (store: Store) => {
       store.setSelectedMenuOption("Text");
     },
   },
   {
     name: "Animation",
-    icon: MdTransform,
+    icon: MdOutlineAnimation ,
     action: (store: Store) => {
       store.setSelectedMenuOption("Animation");
     },
   },
   {
-    name: "Effects",
-    icon: MdMovieFilter,
+    name: "Filters",
+    icon: TbFilters,
     action: (store: Store) => {
-      store.setSelectedMenuOption("Effect");
+      store.setSelectedMenuOption("Filters");
     },
   },
   {
     name: "Fill",
-    icon: MdOutlineFormatColorFill,
+    icon: TfiPaintBucket,
     action: (store: Store) => {
       store.setSelectedMenuOption("Fill");
     },
   },
   {
     name: "Export",
-    icon: MdDownload,
+    icon: IoCloudDownloadOutline,
     action: (store: Store) => {
       store.setSelectedMenuOption("Export");
     },

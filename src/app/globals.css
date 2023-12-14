@@ -30,3 +30,15 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+.hide-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+.hide-scrollbar {
+  scrollbar-width: thin;
+}
