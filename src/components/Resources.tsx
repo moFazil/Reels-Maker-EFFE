@@ -21,7 +21,7 @@ export const Resources = observer(() => {
       {selectedMenuOption === "Image" ? <ImageResourcesPanel /> : null}
       {selectedMenuOption === "Text" ? <TextResourcesPanel /> : null}
       {selectedMenuOption === "Animation" ? <AnimationsPanel /> : null}
-      {selectedMenuOption === "Effect" ? <EffectsPanel /> : null}
+      {selectedMenuOption === "Filters" ? <EffectsPanel /> : null}
       {selectedMenuOption === "Export" ? <ExportVideoPanel /> : null}
       {selectedMenuOption === "Fill" ? <FillPanel /> : null}
     </>
