@@ -25,8 +25,6 @@
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
     "fabric": "^5.3.0",
-    "mobx": "^6.9.0",
-    "mobx-react": "^7.6.0",
     "next": "13.4.9",
     "postcss": "8.4.25",
     "react": "^18.2.0",
@@ -42,6 +40,8 @@
     "@types/animejs": "^3.1.7",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.45",
-    "@types/react-color": "^3.0.6"
+    "@types/react-color": "^3.0.6",
+    "mobx": "^6.12.0",
+    "mobx-react": "^9.1.0"
   }
 }
