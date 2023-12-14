@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { fabric } from 'fabric';
 import { getUid, isHtmlAudioElement, isHtmlImageElement, isHtmlVideoElement } from '@/utils';
 import anime, { get } from 'animejs';
@@ -8,29 +8,6 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import {  toBlobURL } from '@ffmpeg/util';
 
 export class Store {
- deleteEditorElement(ids: string[]): void {
-    this.editorElements = this.editorElements.filter(element => !ids.includes(element.id));
-  }
-  moveElementUp(id: string): void {
-    const index = this.editorElements.findIndex((element) => element.id === id);
-  
-    if (index > 0) {
-      this.editorElements = this.editorElements.map((element, i) =>
-        i === index - 1 ? this.editorElements[index] : i === index ? this.editorElements[index - 1] : element
-      );
-    }
-  }
-  moveElementDown(id: string): void {
-    const index = this.editorElements.findIndex((element) => element.id === id);
-  
-    if (index < this.editorElements.length - 1) {
-      // Swap elements at index and index + 1
-      [this.editorElements[index], this.editorElements[index + 1]] = [
-        this.editorElements[index + 1],
-        this.editorElements[index],
-      ];
-    }
-  }  
 
   canvas: fabric.Canvas | null
 
@@ -70,9 +47,87 @@ export class Store {
     this.animationTimeLine = anime.timeline();
     this.selectedMenuOption = 'Video';
     this.selectedVideoFormat = 'mp4';
-    makeAutoObservable(this);
+    makeAutoObservable(this, {}, { autoBind: true });
    
   }
+
+  
+  private undoStack: { action: string; data: EditorElement[] }[] = [];
+
+  addToUndoStack(action: string, data: EditorElement[]): void {
+    const MAX_UNDO_STACK_SIZE = 10;
+
+    // Add the action and data to the undo stack
+    this.undoStack.push({ action, data });
+
+    // Trim the undo stack if it exceeds the maximum size
+    if (this.undoStack.length > MAX_UNDO_STACK_SIZE) {
+      this.undoStack.shift();
+    }
+  }
+
+  deleteEditorElement(ids: string[]): void {
+    let deletedElements: EditorElement[] = [];
+
+    deletedElements = this.editorElements.filter((element) => ids.includes(element.id));
+
+    this.editorElements = this.editorElements.filter((element) => !ids.includes(element.id));
+
+    // Add the deleted elements to the undo stack
+    this.addToUndoStack('delete', deletedElements);
+}
+
+moveElementUp(id: string): void {
+  const index = this.editorElements.findIndex((element) => element.id === id);
+
+  if (index > 0) {
+    this.editorElements = this.editorElements.map((element, i) =>
+      i === index - 1 ? this.editorElements[index] : i === index ? this.editorElements[index - 1] : element
+    );
+  }
+}
+moveElementDown(id: string): void {
+  const index = this.editorElements.findIndex((element) => element.id === id);
+
+  if (index < this.editorElements.length - 1) {
+    // Swap elements at index and index + 1
+    [this.editorElements[index], this.editorElements[index + 1]] = [
+      this.editorElements[index + 1],
+      this.editorElements[index],
+    ];
+  }
+}  
+
+undo(): void {
+  runInAction(() => {
+  if (this.undoStack.length > 0) {
+    const undoEntry = this.undoStack.pop();
+
+    if (undoEntry) {
+      const { action, data } = undoEntry;
+
+      switch (action) {
+        case 'delete':
+          // Add the deleted elements back to the editorElements
+          this.editorElements = [...this.editorElements, ...data];
+          break;
+        case 'moveUp':
+        case 'moveDown':
+          // Use a more type-safe approach to update the editorElements array
+          this.editorElements = this.editorElements.map((element) =>
+            element.id === data[0].id
+              ? { ...element, ...data[0] }
+              : element.id === data[1].id
+              ? { ...element, ...data[1] }
+              : element
+          );
+          break;
+        // Add cases for other actions if needed
+      }
+    }
+  }
+});
+}
 
   get currentTimeInMs() {
     return this.currentKeyFrame * 1000 / this.fps;
