@@ -109,7 +109,7 @@ export type MenuOption =
   | "Image"
   | "Export"
   | "Animation"
-  | "Effect"
+  | "Filters"
   | "Fill"
   | "NewEdit";
 

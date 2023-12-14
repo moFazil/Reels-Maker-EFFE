@@ -26,7 +26,7 @@ export const Editor = observer(() => {
   useEffect(() => {
     const canvas = new fabric.Canvas("canvas", {
       height: 500,
-      width: 800,
+      width: 889,
       backgroundColor: "#ededed",
     });
     fabric.Object.prototype.transparentCorners = false;
@@ -48,7 +48,7 @@ export const Editor = observer(() => {
     });
   }, []);
   return (
-    <div className="grid grid-rows-[20px_500px_1fr] grid-cols-[60px_250px_800px_1fr] h-[100%]">
+    <div className="grid grid-rows-[20px_500px_1fr] grid-cols-[60px_250px_900px_1fr] h-[100%]">
       <div className="tile row-span-2 flex flex-col">
         <Menu />
       </div>
@@ -59,7 +59,7 @@ export const Editor = observer(() => {
       <div className="col-start-4 row-start-2">
         <ElementsPanel />
       </div>
-      <div className="col-start-3 row-start-3 col-span-2 relative overflow-scroll px-[10px] py-[4px]">
+      <div className="col-start-1 row-start-3 col-span-4 relative overflow-scroll px-4 py-2 hide-scrollbar">
         <TimeLine />
       </div>
     </div>

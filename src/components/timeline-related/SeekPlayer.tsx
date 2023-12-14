@@ -28,7 +28,7 @@ export const SeekPlayer = observer((_props: Props) => {
         <span className="font-mono">{formattedMaxTime}</span>
       </div>
       <input
-        className="flex-1"
+        className='flex-1'
         type="range"
         min={0}
         max={store.maxTime}
