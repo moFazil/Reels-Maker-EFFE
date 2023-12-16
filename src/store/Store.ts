@@ -9,6 +9,7 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import {  toBlobURL } from '@ffmpeg/util';
 
 export class Store {
+  texts: TextEditorElement[] = [];
 
   canvas: fabric.Canvas | null
 
@@ -237,11 +238,25 @@ undo(): void {
   addVideoResource(video: string) {
     this.videos = [...this.videos, video];
   }
+  
+  removeVideoResource(index: number) {
+    this.videos.splice(index, 1);
+  }
+  
   addAudioResource(audio: string) {
     this.audios = [...this.audios, audio];
   }
+  
+  removeAudioResource(index: number) {
+    this.audios.splice(index, 1);
+  }
+  
   addImageResource(image: string) {
     this.images = [...this.images, image];
+  }
+
+  removeImageResource(index:number){
+    this.images.splice(index,1);
   }
 
   addAnimation(animation: Animation) {
@@ -657,6 +672,7 @@ undo(): void {
   }
 
   addText(options: {
+    id: number;
     text: string,
     fontSize: number,
     fontWeight: number,
@@ -689,6 +705,7 @@ undo(): void {
           fontWeight: options.fontWeight,
           textColor: options.textColor,
           fontFamily: options.fontFamily,
+          id:options.id,
           splittedTexts: [],
         },
       },

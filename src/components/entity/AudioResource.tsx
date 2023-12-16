@@ -5,6 +5,7 @@ import { formatTimeToMinSec } from "@/utils";
 import { observer } from "mobx-react";
 import { MdAdd } from "react-icons/md";
 
+
 export type AudioResourceProps = {
   audio: string;
   index: number;
@@ -33,8 +34,8 @@ export const AudioResource = observer(
             setFormatedAudioLength(formatTimeToMinSec(audioLength));
           }}
           ref={ref}
-          className="max-h-[100px] max-w-[150px] min-h-[50px] min-w-[100px]"
-          // controls
+          className=" max-h-4 max-w-[150px] min-h-[10px] min-w-[100px]"
+          controls
           src={audio}
           id={`audio-${index}`}
         ></audio>

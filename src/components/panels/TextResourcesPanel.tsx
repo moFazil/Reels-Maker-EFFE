@@ -13,7 +13,6 @@ export const TextResourcesPanel = observer(() => {
       <TextResource sampleText="Title" fontSize={28} fontWeight={800} />
       <TextResource sampleText="Subtitle" fontSize={20} fontWeight={600} />
       <TextResource sampleText="Body" fontSize={16} fontWeight={400} />
-      <TextResource sampleText="Caption" fontSize={14} fontWeight={300} />
     </div>
   );
 });

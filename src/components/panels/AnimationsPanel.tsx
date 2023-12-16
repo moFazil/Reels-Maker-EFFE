@@ -27,7 +27,7 @@ export const AnimationsPanel = observer(() => {
 
   return (
     <>
-      <div className="text-xl px-[16px] pt-[16px] pb-[16px] font-bold">
+      <div className="text-sm px-[16px] pt-[16px] pb-[16px] font-semibold">
         Animations
       </div>
       {selectedElement && !hasFadeInAnimation ? (
@@ -45,7 +45,7 @@ export const AnimationsPanel = observer(() => {
         >
           Add Fade In
         </div>
-      ) : null}
+      ) : "Select your object that you want to give animation"}
       {selectedElement && !hasFadeOutAnimation ? (
         <div
           className="text-sm px-[16px] py-[8px] font-semibold hover:bg-slate-700 hover:text-white cursor-pointer"
@@ -101,7 +101,7 @@ export const AnimationsPanel = observer(() => {
         >
           Add Slide Out
         </div>
-      ) : alert("Need to select the object")}
+      ) : null}
       {selectedElementAnimations.map((animation) => {
         return <AnimationResource key={animation.id} animation={animation} />;
       })}

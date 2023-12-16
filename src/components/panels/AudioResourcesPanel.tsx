@@ -4,6 +4,8 @@ import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import { AudioResource } from "../entity/AudioResource";
 import { UploadButton } from "../shared/UploadButton";
+import { MdDeleteOutline } from "react-icons/md";
+
 
 export const AudioResourcesPanel = observer(() => {
   const store = React.useContext(StoreContext);
@@ -17,9 +19,21 @@ export const AudioResourcesPanel = observer(() => {
       <div className="text-sm px-[16px] pt-[16px] pb-[8px] font-semibold">
         Add Audio
       </div>
-      {store.audios.map((audio, index) => {
-        return <AudioResource key={audio} audio={audio} index={index} />;
-      })}
+      {store.audios.map((audio, index) => (
+        <div key={index} className="flex items-center">
+          <AudioResource audio={audio} index={index} />
+          <button
+              onClick={(e) => {
+              store.removeAudioResource(index);
+              store.refreshElements();
+              e.preventDefault();
+              e.stopPropagation();
+            }}
+          >
+          <MdDeleteOutline className="text-[#EA2127] hover:text-xl text-lg" />
+          </button>
+        </div>
+      ))}
       <UploadButton
         accept="audio/mp3,audio/*"
         className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold text-center mx-2 py-2 px-4 rounded"

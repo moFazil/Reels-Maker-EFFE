@@ -76,7 +76,7 @@ export const Element = observer((props: ElementProps) => {
         ) : null}
       </div>
       <button
-        className="bg-red-500 hover:bg-red-700 text-white mr-2 text-xs py-0 px-1 rounded"
+        className="text-red-500 hover:bg-slate-500 mr-2 text-xs py-1 px-2 rounded-full font-black"
         onClick={(e) => {
           store.removeEditorElement(element.id);
           store.refreshElements();

@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { StoreContext } from "@/store";
 import { observer } from "mobx-react";
 import { MdAdd } from "react-icons/md";
-import { SketchPicker } from "react-color"; 
 
 
 type TextResourceProps = {
@@ -14,7 +13,7 @@ type TextResourceProps = {
 export const TextResource = observer(
   (({ fontSize, fontWeight, sampleText }: TextResourceProps)=> {
     const store = React.useContext(StoreContext);
-    const [textColor, setTextColor] = React.useState("#ffffff");
+    const [textColor, setTextColor] = React.useState("#76A99D");
     const handleColorChange = (color: any) => {
       // console.log("Color changed:", color.hex);
       setTextColor(color.hex);
@@ -48,6 +47,7 @@ export const TextResource = observer(
               fontWeight: fontWeight,
               textColor: textColor,
               fontFamily: selectedFont,
+              id:0
             })
           }
         >
@@ -55,11 +55,11 @@ export const TextResource = observer(
         </button>
         </div>
         <div>
-        <SketchPicker
-        color={textColor}
-        onChange={handleColorChange}
-        width="100%"
-      />
+        <input
+          type="color"
+          value={textColor}
+          onChange={(e) => handleColorChange({ hex: e.target.value })}
+        />
      <select value={selectedFont} onChange={handleFontChange}>
             <option value="">Select Font Family</option>
             {predefinedFonts.map((font) => (

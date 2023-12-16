@@ -17,7 +17,7 @@ export const EffectsPanel = observer(() => {
       (isEditorImageElement(selectedElement) ||
         isEditorVideoElement(selectedElement)) ? (
         <EffectResource editorElement={selectedElement} />
-      ) : alert("Need to select the object")}
+      ) :null}
     </>
   );
 });

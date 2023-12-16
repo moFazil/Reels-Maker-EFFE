@@ -42,3 +42,7 @@ body {
 .hide-scrollbar {
   scrollbar-width: thin;
 }
+
+.RMred{
+  background-color: #EA2127;
+}
